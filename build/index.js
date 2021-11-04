@@ -22,7 +22,7 @@ var db = pgp({
     }
 });
 app.use(express_1.default.json());
-app.get("/", (req, res) => {
+app.get("/users", (req, res) => {
     db.query('SELECT id, name, surname FROM "MY_USERS"')
         .then(function (data) {
         res.send(data);
@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
         res.send(error);
     });
 });
-app.post("/", (req, res) => {
+app.post("/users", (req, res) => {
     console.log(req.body);
     db.one('INSERT INTO "MY_USERS" (name, surname) VALUES($1, $2) RETURNING id', [req.body.name, req.body.surname], (event) => event.id).then((data) => {
         res.send(data);
