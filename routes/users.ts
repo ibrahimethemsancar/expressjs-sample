@@ -15,11 +15,16 @@ var db=pgp({
       rejectUnauthorized:false
     }
   })
+
+
 router.route("/")
 .all((req,res,next)=>{
   console.log("Request detected ");
   next()
 })
+
+
+
 .get((req,res)=>{
   db.query('SELECT id,name,surname FROM "MY_USERS"')
 .then(function (data) {
@@ -37,6 +42,7 @@ router.route("/")
       res.send(data)
       )
 });
+
 
 router.get('/:id',(req,res)=>{
     db.one('SELECT id,name,surname FROM "MY_USERS" WHERE id=$1',[req.params.id] )

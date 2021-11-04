@@ -8,6 +8,9 @@ const dotenv = require('dotenv').config();
 const birdsRouter = require('./routes/birds')
 const usersRouter = require('./routes/users')
 const homeRouter = require('./routes/home')
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerDocument = require("./swagger.json");
 // const pgp = pgPromise({});
 // var db = pgp('postgres://postgres:123456@localhost:5432/postgres')
 
@@ -51,7 +54,13 @@ app.listen(process.env.PORT  || port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 app.use(express.json());
-app.use("/",router);
+app.use("/",homeRouter);
 app.use("/birds",birdsRouter);
 app.use("/users",usersRouter);
-app.use("/",homeRouter);
+
+
+var options = {
+  explorer: true
+};
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
